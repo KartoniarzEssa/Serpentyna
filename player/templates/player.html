@@ -1,0 +1,89 @@
+{% load static %}
+<!doctype html>
+<html lang="pl">
+
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=0.6">
+        <title>Serpentyna - Player</title>
+        <meta name="description" content="A player for Serpentyna web-app.">
+        <meta name="author" content="StarymisiadaSoftware">
+        <link rel="stylesheet" href="{% static 'player_style.css' %}">
+        <script>
+          function getNextMedia(end) {
+            var thumbnail = document.getElementById('thumbnail');
+            var audio = document.getElementById('audio');
+            var title = document.getElementById('title');
+
+            if(end == true || title.innerHTML == 'Kolejka aktualnie pusta') {
+              fetch('/player/next_media/', {
+                method: 'GET',
+            })
+            .then(response => response.json())
+            .then(data => {
+              if(data['title'] == 'Kolejka aktualnie pusta') {
+                if (title.innerHTML != data['title']) {
+                  title.innerHTML = data['title'];
+                  audio.src = '';
+                  thumbnail.src = '';
+                };
+                hide();
+                setTimeout(function() {
+                  getNextMedia();
+                }, 2000);
+                return;
+              }
+              // Ustaw dane jako źródło dla elementów
+              show();
+              
+              if(thumbnail != null && audio != null) {
+                audio.src = data['url'];
+                title.innerHTML = data['title'];
+                thumbnail.src = data['thumbnail'];
+                // Odtwórz audio
+                audio.play();
+              }
+            })};
+          }
+
+          function hide() {
+            var thumbnail = document.getElementById('thumbnail');
+            var audio = document.getElementById('audio');
+
+            if(thumbnail != null && audio != null) {
+              thumbnail.style.visibility = 'hidden';
+              audio.style.visibility = 'hidden';
+            }
+          }
+
+          function show() {
+            var thumbnail = document.getElementById('thumbnail');
+            var audio = document.getElementById('audio');
+
+            if(thumbnail != null && audio != null) {
+              document.getElementById('thumbnail').style.visibility = 'visible';
+              document.getElementById('audio').style.visibility = 'visible';
+            }
+          }
+      </script>
+    </head>
+
+
+    <body onload='getNextMedia(end=false)'>
+      <input type='hidden' name='csrfmiddlewaretoken' id='csrfmiddlewaretoken' value='{{ csrf_token }}'>
+      <noscript>
+        <div class='div_center'>
+          <p>Ta strona wymaga włączonej obsługi JavaScript, aby działać poprawnie.</p>
+          <p>Włącz ją i zrestartuj aplikację</p>
+        </div>
+      </noscript>
+      <div class='center'>
+        <img class='thumbnail' id='thumbnail' src='{{ thumbnail }}'<br>
+        <p class='title' id='title'>{{ title }}</p>
+        <audio id='audio' onended='getNextMedia(end=true)' src='{{ url }}' class='audio' type='audio/m4a' autoplay controls></audio>
+      </div>
+    </body>
+
+
+</html>

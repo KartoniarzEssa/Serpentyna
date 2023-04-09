@@ -1,0 +1,35 @@
+{% load static %}
+<!doctype html>
+<html lang="pl">
+
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=0.6">
+        <title>Serpentyna - Queue</title>
+        <meta name="description" content="A queue for Serpentyna web-app.">
+        <meta name="author" content="StarymisiadaSoftware">
+        <link rel="stylesheet" href="{% static 'queue_style.css' %}">
+    </head>
+
+
+    <body>
+        <div class='url_input_div'>
+            <form action='./' method='post'>
+                <label class="url_label">Podaj link filmu YouTube (Max 1 godzina)</label>
+                <br>
+                {% csrf_token %}
+                {% if yt_url.is_valid %}
+                <ul class='valid'>
+                    <li>Pomyślnie dodano piosenkę/i do kolejki.</li>
+                </ul>
+                {% endif %}
+                {{yt_url.as_p}}
+                <br>
+                <input class='url_submit' type='submit' value='Dodaj do kolejki'>
+            </form>
+        </div>
+    </body>
+
+
+</html>

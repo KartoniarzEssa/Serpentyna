@@ -1,0 +1,28 @@
+{% load static %}
+<!doctype html>
+<html lang="pl">
+
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=0.6">
+        <title>Serpentyna - Session Busy</title>
+        <meta name="description" content="A player for Serpentyna web-app.">
+        <meta name="author" content="StarymisiadaSoftware">
+        <link rel="stylesheet" href="{% static 'player_style.css' %}">
+    </head>
+
+    
+    <body>
+        <div class='center'>
+            <p>Ktoś obecnie używa tej strony. Spróbuj ponownie później.</p>
+            <noscript>
+                <p>Wygląda na to że obsługa JavaScript w twojej przeglądarce jest wyłączona.</p>
+                <p>Aby aplikacja mogła poprawnie funkcjonować musisz ją włączyć.</p>
+                <p>Następnie zrestartuj aplikację i wejdź tutaj ponownie</p>
+            </noscript>
+        </div>
+    </body>
+
+
+</html>
