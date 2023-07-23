@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
 from .forms import *
 
 # Create your views here.
@@ -16,4 +15,4 @@ def player_queue(request):
         yt_url_form.save(commit=False)
         yt_url_form.data = ({})
     
-    return render(request, 'queue.html', context)
+    return render(request, 'add_queue.html', context)

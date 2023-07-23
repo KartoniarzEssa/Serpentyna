@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from player.models import ActiveUsers
 from django.contrib.sessions.models import Session
+from . import views
 
 try:
     Session.objects.all().delete()
@@ -30,4 +31,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('player_queue.urls')),
     path('player/', include('player.urls')),
+    path('static/<path:path>', views.serve_static),
 ]
